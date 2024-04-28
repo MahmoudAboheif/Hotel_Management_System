@@ -16,8 +16,49 @@ namespace Hotel_Management__Debugging_
 
             if (Role == 1) //manager
             {
+                while (true)
+                {
+                    Reservation G1 = new Reservation();
+                    Console.WriteLine("What do you desire to do: 1.Edit, 2.Bill");
+                    Operation = int.Parse(Console.ReadLine());
 
+                    //Edit
+                    if (Operation == 1)
+                    {
+                        Console.WriteLine("Enter the operation:\n 1-Delete Reservation \n 2-Edit Reservation \n 3-Guest Info");
+                        int Edit = int.Parse(Console.ReadLine());
+
+                        Console.WriteLine("Enter the Id");
+                        G1.Id = Console.ReadLine();
+
+                        //Delete
+                        if (Edit == 1)
+                        {
+                            G1.DeleteClient(G1.Id);
+                        }
+
+                        //Edit Reservation date
+                        if (Edit == 2)
+                        {
+                            G1.EditCheckInDate(G1.Id);
+                            G1.EditCheckOutDate(G1.Id);
+                            G1.GetVacancy(G1.Id);
+                        }
+
+                        if (Edit == 3)
+                        {
+                            G1.UpdateGuestInfo(G1.Id);
+                        }
+
+                        //Bill
+                        else if (Operation == 2)
+                        {
+                            G1.Bill();
+                        }
+                    }
+                }
             }
+        
 
             else if (Role == 2) //receptionist
             {
