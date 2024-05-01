@@ -9,6 +9,7 @@ namespace Hotel_Management__Debugging_
 
     public class Check : LCheckDate, LCheckTime, LUpdateCheckDate, LBill
     {
+        public Check() { }
 
         //CheckIn Variables
         /*--------------------------------------------------------------------------------------------------------*/
@@ -23,6 +24,18 @@ namespace Hotel_Management__Debugging_
 
         protected string status;
         /*--------------------------------------------------------------------------------------------------------*/
+
+        public DateOnly Departure
+        {
+            get { return DepartureDate; }
+            set { DepartureDate = value; }
+        }
+
+        public DateOnly Arrival
+        {
+            get { return ArrivalDate; }
+            set { ArrivalDate = value; }
+        }
 
 
         // Property of Number of Days
@@ -95,10 +108,7 @@ namespace Hotel_Management__Debugging_
         public void CheckOutTime(string Id)
         {
             TimeSpan Departure = DateTime.Now.TimeOfDay;
-            //  Hour = Arrival.Hours;
-            //  Minute = Arrival.Minutes;
-
-            //Console.WriteLine($"Arrival Time is {Hour}:{Minute}");
+            
             Console.WriteLine($"Departure Time is {Departure}");
             DepartureTime = Departure;
             Db1.UpdateDepartureTime(Departure, Id);
@@ -165,10 +175,12 @@ namespace Hotel_Management__Debugging_
 
         protected int Price_Per_Night;
 
-        public void Bill()
+        public void Bill(string id)
         {
             Days_number = DepartureDate.Day - ArrivalDate.Day;
             RoomBill = Days_number * Price_Per_Night;
+            DBAccess dbAccess = new DBAccess();
+            dbAccess.InsertBill(id,RoomBill);
             Console.WriteLine($"Room Bill: {RoomBill}");
         }
 

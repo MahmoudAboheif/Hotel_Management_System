@@ -28,6 +28,6 @@ namespace Hotel_Management__Debugging_
 
     public interface LBill
     {
-        void Bill();
+        void Bill(string Id);
     }
 }

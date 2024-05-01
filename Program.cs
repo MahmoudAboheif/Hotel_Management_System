@@ -19,8 +19,11 @@ namespace Hotel_Management__Debugging_
                 while (true)
                 {
                     Reservation G1 = new Reservation();
-                    Console.WriteLine("What do you desire to do: 1.Edit, 2.Bill");
+                    Console.WriteLine("What do you desire to do: 1.Edit");
                     Operation = int.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Enter the Id");
+                    G1.Id = Console.ReadLine();
 
                     //Edit
                     if (Operation == 1)
@@ -28,8 +31,6 @@ namespace Hotel_Management__Debugging_
                         Console.WriteLine("Enter the operation:\n 1-Delete Reservation \n 2-Edit Reservation \n 3-Guest Info");
                         int Edit = int.Parse(Console.ReadLine());
 
-                        Console.WriteLine("Enter the Id");
-                        G1.Id = Console.ReadLine();
 
                         //Delete
                         if (Edit == 1)
@@ -38,24 +39,27 @@ namespace Hotel_Management__Debugging_
                         }
 
                         //Edit Reservation date
-                        if (Edit == 2)
+                        else if (Edit == 2)
                         {
                             G1.EditCheckInDate(G1.Id);
                             G1.EditCheckOutDate(G1.Id);
                             G1.GetVacancy(G1.Id);
                         }
 
-                        if (Edit == 3)
+                        else if (Edit == 3)
                         {
                             G1.UpdateGuestInfo(G1.Id);
                         }
 
-                        //Bill
-                        else if (Operation == 2)
-                        {
-                            G1.Bill();
-                        }
+                     
                     }
+
+                    //Bill
+                    //else if (Operation == 2)
+                    //{
+                    //    G1.Bill(G1.Id);
+                    //}
+
                 }
             }
         
@@ -96,7 +100,7 @@ namespace Hotel_Management__Debugging_
                         G1.Id = Console.ReadLine();
 
                         G1.CheckOutTime(G1.Id);
-                        G1.Bill();
+                      //  G1.Bill(G1.Id);
                     }
 
                     //Edit
@@ -141,6 +145,107 @@ namespace Hotel_Management__Debugging_
             else if (Role == 3) // food service
             {
 
+                Console.WriteLine("Enter your ID");
+
+                string guest = Console.ReadLine();
+
+
+                // Define a list of available meals with their prices
+                List<Tuple<string, decimal>> availableMeals = new List<Tuple<string, decimal>>()
+                           {
+                             new Tuple<string, decimal>("Koshary",2.00m),
+                             new Tuple<string, decimal>("Burger", 10.99m),
+                             new Tuple<string, decimal>("Pizza", 12.99m),
+                             new Tuple<string, decimal>("Salad", 8.99m),
+                             new Tuple<string, decimal>("Spaghetti with Meat Balls", 11.99m),
+                             new Tuple<string, decimal>("Spaghetti with Seafood", 13.00m),
+                             new Tuple<string, decimal>("Sushi", 45.00m),
+                             new Tuple<string, decimal>("Millefeuille", 30.00m),
+                             new Tuple<string, decimal>("Brrito", 15.00m),
+                             new Tuple<string, decimal>("Chicken Shawrma", 14.00m),
+                             new Tuple<string, decimal>("Meat Shawrma", 19.00m),
+                             new Tuple<string, decimal>("Mombaar", 9.00m),
+                             new Tuple<string, decimal>("Kawar3", 30.00m),
+
+                           };
+
+                MealTracker mealTracker = new MealTracker();
+
+                while (true)
+                {
+                    Console.WriteLine("Available Meals:");
+                    for (int i = 0; i < availableMeals.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {availableMeals[i].Item1} - ${availableMeals[i].Item2}");
+                    }
+
+                    Console.WriteLine("Select a meal (enter the corresponding number):");
+                    int mealChoice = int.Parse(Console.ReadLine());
+
+                    if (mealChoice < 1 || mealChoice > availableMeals.Count)
+                    {
+                        Console.WriteLine("Invalid choice! Please select a valid meal.");
+                        continue;
+                    }
+
+                    string selectedMealName = availableMeals[mealChoice - 1].Item1;
+                    decimal selectedMealPrice = availableMeals[mealChoice - 1].Item2;
+
+                    Console.WriteLine($"Selected meal: {selectedMealName} - ${selectedMealPrice}");
+
+                    Console.WriteLine("Enter quantity:");
+                    int quantity = int.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Enter payment amount:");
+                    decimal paymentAmount = decimal.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Enter payment type visa or cash:");
+
+                    string selected = Console.ReadLine();
+
+
+                    Meal meal = new Meal(selectedMealName, selectedMealPrice);
+                    MealPurchase mealPurchase = new MealPurchase(meal, quantity);
+
+                    Console.WriteLine($"Total price for {quantity} {selectedMealName}(s):\n ${mealPurchase.GetTotalPrice()} \npaid by {selected}");
+
+
+                    decimal totalPrice = mealPurchase.GetTotalPrice();  // Calculate total price
+
+                    if (paymentAmount < totalPrice)
+                    {
+                        Console.WriteLine("The payment amount is less than the total price of the meal.");
+                        return;
+                    }
+
+
+                    // If the payment amount is greater than the total price, calculate and display the change
+                    if (paymentAmount > totalPrice)
+                    {
+                        decimal change = paymentAmount - totalPrice;
+                        Console.WriteLine($"Payment received.\n Your change is: ${change}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Payment received. Thank you.");
+                    }
+
+                    mealPurchase.RecordPayment(paymentAmount);
+
+
+                    Console.WriteLine("Meal purchase recorded successfully!");
+
+                    Console.WriteLine("Do you want to make another purchase? (yes/no)");
+
+                    string anotherPurchase = Console.ReadLine();
+                    ;
+                    if (anotherPurchase == "no")
+                    {
+                        break;
+                    }
+                    else if (anotherPurchase == "yes")
+                        continue;
+                }
             }
 
             else
@@ -149,7 +254,6 @@ namespace Hotel_Management__Debugging_
             }
 
             return;
-
 
         }
 

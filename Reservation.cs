@@ -18,7 +18,6 @@ namespace Hotel_Management__Debugging_
         protected string phone_number;
         protected string id;
         protected int room_number;
-        protected bool occupancy;
         protected string roomtype;
      
 
@@ -71,15 +70,6 @@ namespace Hotel_Management__Debugging_
             }
         }
 
-        public bool Occupancy
-        {
-            get => occupancy;
-            set
-            {
-                occupancy = value;
-            }
-        }
-
         public string RoomType
         {
             get { return roomtype; }
@@ -94,21 +84,18 @@ namespace Hotel_Management__Debugging_
 
         /*--------------------------------------------------------------------------------*/
 
-
-
         //Default Constructor
-        public Reservation()
+        public Reservation() 
         { }
 
         //parameterized Constructor
-        public Reservation(string firstname, string lastName, string phone_number, string id, int room_number, bool occupancy, string roomtype)
+        public Reservation(string firstname, string lastName, string phone_number, string id, int room_number, string roomtype)
         {
             this.firstname = firstname;
             this.lastName = lastName;
             this.phone_number = phone_number;
             this.id = id;
             this.room_number = room_number;
-            this.occupancy = occupancy;
             this.roomtype = roomtype;
         }
 
@@ -134,6 +121,7 @@ namespace Hotel_Management__Debugging_
 
             DBAccess dbAccess1 = new DBAccess();
             dbAccess.InsertGuestInfo(firstname,lastName,phone_number,id);
+            Console.WriteLine("Guest Information Added Successfully");
 
 
         }
@@ -150,6 +138,7 @@ namespace Hotel_Management__Debugging_
             phone_number = Console.ReadLine();
 
             dbAccess.UpdateGuestInfo(id, firstname, lastName, phone_number);
+            Console.WriteLine("Guest Information Updated Successfully");
 
         }
 
@@ -157,26 +146,26 @@ namespace Hotel_Management__Debugging_
         {
             dbAccess.DeleteGuestInfo(id);
             dbAccess.DeleteReservation(id);
-
+            Console.WriteLine("Reservation Deleted Successfully");
         }
 
 
         //Searching int the client info table and returning values by calling the method inside the database 
-        public Reservation SearchCustomerById(string id)
-        {
-            DBAccess dbAccess1 = new DBAccess();
+        //public Reservation SearchCustomerById(string id)
+        //{
+        //    DBAccess dbAccess1 = new DBAccess();
 
-            try
-            {
-                return dbAccess1.SearchCustomerById(id);
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions that occur during the search
-                Console.WriteLine("An error occurred while searching for the customer: " + ex.Message);
-                return null;
-            }
-        }
+        //    try
+        //    {
+        //        return dbAccess1.SearchCustomerById(id);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Handle any exceptions that occur during the search
+        //        Console.WriteLine("An error occurred while searching for the customer: " + ex.Message);
+        //        return null;
+        //    }
+        //}
 
 
         /*--------------------------------------------------------------------------------------------------------*/
@@ -223,6 +212,7 @@ namespace Hotel_Management__Debugging_
                 {
                     RoomNumber = i;
                     BookRoom(RoomNumber, id); // Book the room if it's available
+                    Bill(id);
                     return $"Room number {i} is vacant";
                 }
             }

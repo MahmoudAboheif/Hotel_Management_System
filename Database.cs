@@ -65,6 +65,16 @@ namespace Hotel_Management__Debugging_
 
         }
 
+        public void InsertBill(string id,int bill)
+        {
+
+            SqlCommand insertCommand = new SqlCommand("Update Book_Reservation SET Bill = @Bill Where Id = @Id");
+            insertCommand.Parameters.AddWithValue("@Id", id);
+            insertCommand.Parameters.Add(new SqlParameter("@Bill", bill));
+          
+            executeQuery(insertCommand);
+    }
+
         public override void DeleteGuestInfo(string id)
         {
             try
@@ -411,53 +421,107 @@ namespace Hotel_Management__Debugging_
 
         //Searching inside the client info table and returning variables
 
-        public Reservation SearchCustomerById(string id)
-        {
-            try
-            {
-                // Create a new Reservation object to store the search result
-                Reservation customer = new Reservation();
+        //public Reservation SearchCustomerById(string id)
+        //{
+        //    try
+        //    {
+        //        // Create a new Reservation object to store the search result
+        //        Check customer = new Reservation();
 
-                // Open the database connection if it's not already open
-                if (connection.State == ConnectionState.Closed)
-                {
-                    createConn();
-                }
+        //        // Open the database connection if it's not already open
+        //        if (connection.State == ConnectionState.Closed)
+        //        {
+        //            createConn();
+        //        }
 
-                // Define the SQL query for searching based on the Id (primary key)
-                string query = "SELECT * FROM Guest_Info WHERE Id = @Id";
+        //        // Define the SQL query for searching based on the Id (primary key)
+        //        string query = "SELECT * FROM Book_Reservation WHERE Id = @Id";
 
-                // Create a SqlCommand object with the query and connection
-                using (SqlCommand searchCommand = new SqlCommand(query, connection))
-                {
-                    // Add a parameter for the Id
-                    searchCommand.Parameters.AddWithValue("@Id", id);
+        //        // Create a SqlCommand object with the query and connection
+        //        using (SqlCommand searchCommand = new SqlCommand(query, connection))
+        //        {
+        //            // Add a parameter for the Id
+        //            searchCommand.Parameters.AddWithValue("@Id", id);
 
-                    // Execute the command and read the data using SqlDataReader
-                    using (SqlDataReader reader = searchCommand.ExecuteReader())
-                    {
-                        // Check if there is data to read
-                        if (reader.Read())
-                        {
-                            // Fill the Reservation object with data from the database
-                            customer.Id = reader["Id"].ToString();
-                            customer.FirstName = reader["FirstName"].ToString();
-                            customer.LastName = reader["SecondName"].ToString();
-                            customer.PhoneNumber = reader["Phone_Number"].ToString();
-                            customer.RoomNumber = Convert.ToInt32(reader["Room_Number"]);
-                            // Other properties can be filled similarly
-                        }
-                    }
-                }
+        //            // Execute the command and read the data using SqlDataReader
+        //            using (SqlDataReader reader = searchCommand.ExecuteReader())
+        //            {
+        //                // Check if there is data to read
+        //                if (reader.Read())
+        //                {
+        //                    // Fill the Reservation object with data from the database
+        //                    customer.DepartureDate = reader["Id"].ToString();
+        //                    customer.ArrivalDate = reader["FirstName"].ToString();
+        //                    //customer.LastName = reader["SecondName"].ToString();
+        //                    //customer.PhoneNumber = reader["Phone_Number"].ToString();
+        //                    //customer.RoomNumber = Convert.ToInt32(reader["Room_Number"]);
+        //                    // Other properties can be filled similarly
+        //                }
+        //            }
+        //        }
 
-                // Return the Reservation object containing the search result
-                return customer;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        // Return the Reservation object containing the search result
+        //        return customer;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+        //public Reservation SearchCustomerById(string id)
+        //{
+        //    try
+        //    {
+        //        // Create a new Reservation object to store the search result
+        //        Reservation customer = new Reservation();
+
+        //        // Open the database connection if it's not already open
+        //        if (connection.State == ConnectionState.Closed)
+        //        {
+        //            createConn();
+        //        }
+
+        //        // Define the SQL query for searching based on the Id (primary key)
+        //        string query = "SELECT DepartureDate, ArrivalDate FROM Book_Reservation WHERE Id = @Id";
+
+        //        // Create a SqlCommand object with the query and connection
+        //        using (SqlCommand searchCommand = new SqlCommand(query, connection))
+        //        {
+        //            // Add a parameter for the Id
+        //            searchCommand.Parameters.AddWithValue("@Id", id);
+
+        //            // Execute the command and read the data using SqlDataReader
+        //            using (SqlDataReader reader = searchCommand.ExecuteReader())
+        //            {
+        //                // Check if there is data to read
+        //                if (reader.Read())
+        //                {
+        //                    // Fill the Reservation object with data from the database
+        //                    DateTime departureDateTime = reader.GetDateTime(reader.GetOrdinal("DepartureDate"));
+        //                    DateTime arrivalDateTime = reader.GetDateTime(reader.GetOrdinal("ArrivalDate"));
+
+        //                    // Convert DateTime to DateOnly using DateTimeOffset as an intermediate step
+        //                    DateTimeOffset departureDateTimeOffset = new DateTimeOffset(departureDateTime);
+        //                    DateTimeOffset arrivalDateTimeOffset = new DateTimeOffset(arrivalDateTime);
+
+        //                    customer.Departure = departureDateTimeOffset.Date;
+        //                    customer.Arrival = arrivalDateTimeOffset.Date;
+        //                }
+        //            }
+        //        }
+
+        //        // Return the Reservation object containing the search result
+        //        return customer;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+
+
 
 
 
